@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
-from api.models import Account, Transaction
+from api.models import Account, Transaction, User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Пользователь"""
+
+    class Meta:
+        model = User
+        exclude = ('password',)
 
 
 class AccountCreateSerializer(serializers.ModelSerializer):
@@ -33,5 +41,3 @@ class CreateTransactionSerializer(serializers.Serializer):
     senders_account = serializers.UUIDField(required=True)
     amount_to_send = serializers.DecimalField(required=True, min_value=0.01, max_digits=11, decimal_places=2)
     receivers_account = serializers.UUIDField(required=True)
-
-

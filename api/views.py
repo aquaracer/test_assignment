@@ -3,10 +3,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from api.models import Account, Transaction
+from api.models import Account, Transaction, User
 from api.serializers import AccountSerializer, TransactionSerializer, CreateTransactionSerializer, \
-    AccountCreateSerializer
+    AccountCreateSerializer, UserSerializer
 from api.services import send_funds
+
+
+class UserViewSet(ModelViewSet):
+    """CRUD Пользователя"""
+
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
 
 
 class AccountViewSet(ModelViewSet):
